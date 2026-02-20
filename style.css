@@ -1,132 +1,68 @@
-@import url('https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;600&family=Montserrat:wght@400;700&display=swap');
+function updateTime() {
+  // --- Ciudad 1: Los Angeles ---
+  let losAngelesElement = document.querySelector("#los-angeles");
+  if (losAngelesElement) {
+    let losAngelesDateElement = losAngelesElement.querySelector(".date");
+    let losAngelesTimeElement = losAngelesElement.querySelector(".time");
+    let losAngelesTime = moment().tz("America/Los_Angeles");
 
-/* Estilos Generales */
-body {
-  background-color: #f2f2f2;
-  font-family: 'Open Sans', sans-serif;
-  margin: 0;
-  padding: 0;
-}
-
-.container {
-  max-width: 35rem;
-  margin: 3.75rem auto;
-  background: #fff;
-  padding: 1.875rem;
-  box-shadow: rgba(0, 0, 0, 0.1) 0 0.4375rem 1.8125rem 0;
-  border-radius: 0.625rem;
-}
-
-/* Tipografía */
-h1 {
-  text-align: center;
-  font-family: 'Montserrat', sans-serif;
-  font-size: 2.5rem;
-  color: #333;
-}
-
-h2 {
-  margin: 0 0 0.5rem;
-  font-size: 1.75rem;
-  color: #555;
-}
-
-/* Selector de Ciudades */
-select {
-  display: block;
-  width: 100%;
-  font-size: 1.1rem;
-  border-radius: 0.25rem;
-  padding: 0.75rem;
-  border: 1px solid #ccc;
-  background-color: #fff;
-  cursor: pointer;
-  transition: border-color 200ms ease;
-}
-
-select:focus {
-  outline: none;
-  border-color: #333;
-}
-
-/* Bloque de Ciudad */
-.city {
-  display: flex;
-  margin: 0.625rem 0;
-  justify-content: space-between;
-  padding: 1.875rem 0;
-  border-bottom: 1px dashed rgba(0, 0, 0, 0.2);
-}
-
-/* Eliminar borde punteado en el último elemento */
-.city:last-child {
-  border: none;
-}
-
-.date {
-  opacity: 0.7;
-  font-size: 0.9rem;
-}
-
-.time {
-  font-size: 3rem;
-  font-weight: bold;
-  color: #333;
-}
-
-.time small {
-  font-size: 1.5rem;
-  vertical-align: middle;
-}
-
-/* BOTÓN "All cities" (Bono 1) */
-.back-link {
-  display: block;
-  text-align: center;
-  margin-top: 2rem;
-  color: #555;
-  text-decoration: none;
-  font-size: 1rem;
-  border: 1px solid #ddd;
-  padding: 0.8rem;
-  border-radius: 0.3rem;
-  background-color: #fafafa;
-  transition: all 200ms ease-in-out;
-  font-weight: 600;
-}
-
-.back-link:hover {
-  background-color: #333;
-  color: #fff;
-  border-color: #333;
-}
-
-/* Footer */
-footer {
-  text-align: center;
-  font-size: 0.9rem;
-  color: rgba(0, 0, 0, 0.6);
-  margin-top: 2rem;
-  padding-bottom: 2rem;
-}
-
-footer a {
-  color: #333;
-  font-weight: bold;
-}
-
-/* Ajustes para móviles */
-@media (max-width: 500px) {
-  .container {
-    margin: 1rem;
-    padding: 1rem;
+    losAngelesDateElement.innerHTML = losAngelesTime.format("MMMM Do YYYY");
+    losAngelesTimeElement.innerHTML = losAngelesTime.format(
+      "h:mm:ss [<small>]A[</small>]"
+    );
   }
-  
-  .time {
-    font-size: 2rem;
-  }
-  
-  h1 {
-    font-size: 2rem;
+
+  // --- Ciudad 2: Paris ---
+  let parisElement = document.querySelector("#paris");
+  if (parisElement) {
+    let parisDateElement = parisElement.querySelector(".date");
+    let parisTimeElement = parisElement.querySelector(".time");
+    let parisTime = moment().tz("Europe/Paris");
+
+    parisDateElement.innerHTML = parisTime.format("MMMM Do YYYY");
+    parisTimeElement.innerHTML = parisTime.format(
+      "h:mm:ss [<small>]A[</small>]"
+    );
   }
 }
+
+function updateCity(event) {
+  let cityTimeZone = event.target.value;
+
+  // Bono 2: Detectar ubicación actual si se elige esa opción
+  if (cityTimeZone === "current") {
+    cityTimeZone = moment.tz.guess();
+  }
+
+  // Si no hay zona horaria seleccionada, no hacer nada
+  if (!cityTimeZone) return;
+
+  // Formatear el nombre de la ciudad para que se vea bien (ej: de "America/New_York" a "New York")
+  let cityName = cityTimeZone.replace("_", " ").split("/")[1];
+  let cityTime = moment().tz(cityTimeZone);
+  let citiesElement = document.querySelector("#cities");
+
+  // Inyectar la nueva ciudad y el BOTÓN de retorno (Bono 1)
+  citiesElement.innerHTML = `
+  <div class="city">
+    <div>
+      <h2>${cityName}</h2>
+      <div class="date">${cityTime.format("MMMM Do YYYY")}</div>
+    </div>
+    <div class="time">${cityTime.format("h:mm:ss")} <small>${cityTime.format(
+    "A"
+  )}</small></div>
+  </div>
+  <a href="/" class="back-link">All cities</a>
+  `;
+}
+
+// Ejecutar la función de tiempo una vez al cargar
+updateTime();
+
+// Configurar el intervalo para que el segundero se mueva cada segundo
+setInterval(updateTime, 1000);
+
+// Escuchar cambios en el selector de ciudades
+let citiesSelectElement = document.querySelector("#city");
+citiesSelectElement.addEventListener("change", updateCity);
