@@ -1,5 +1,6 @@
 @import url('https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;600&family=Montserrat:wght@400;700&display=swap');
 
+/* Estilos Generales */
 body {
   background-color: #f2f2f2;
   font-family: 'Open Sans', sans-serif;
@@ -7,6 +8,16 @@ body {
   padding: 0;
 }
 
+.container {
+  max-width: 35rem;
+  margin: 3.75rem auto;
+  background: #fff;
+  padding: 1.875rem;
+  box-shadow: rgba(0, 0, 0, 0.1) 0 0.4375rem 1.8125rem 0;
+  border-radius: 0.625rem;
+}
+
+/* Tipografía */
 h1 {
   text-align: center;
   font-family: 'Montserrat', sans-serif;
@@ -20,6 +31,7 @@ h2 {
   color: #555;
 }
 
+/* Selector de Ciudades */
 select {
   display: block;
   width: 100%;
@@ -27,17 +39,17 @@ select {
   border-radius: 0.25rem;
   padding: 0.75rem;
   border: 1px solid #ccc;
+  background-color: #fff;
+  cursor: pointer;
+  transition: border-color 200ms ease;
 }
 
-.container {
-  max-width: 35rem;
-  margin: 3.75rem auto;
-  background: #fff;
-  padding: 1.875rem;
-  box-shadow: rgba(0, 0, 0, 0.1) 0 0.4375rem 1.8125rem 0;
-  border-radius: 0.625rem;
+select:focus {
+  outline: none;
+  border-color: #333;
 }
 
+/* Bloque de Ciudad */
 .city {
   display: flex;
   margin: 0.625rem 0;
@@ -46,6 +58,7 @@ select {
   border-bottom: 1px dashed rgba(0, 0, 0, 0.2);
 }
 
+/* Eliminar borde punteado en el último elemento */
 .city:last-child {
   border: none;
 }
@@ -66,8 +79,54 @@ select {
   vertical-align: middle;
 }
 
+/* BOTÓN "All cities" (Bono 1) */
+.back-link {
+  display: block;
+  text-align: center;
+  margin-top: 2rem;
+  color: #555;
+  text-decoration: none;
+  font-size: 1rem;
+  border: 1px solid #ddd;
+  padding: 0.8rem;
+  border-radius: 0.3rem;
+  background-color: #fafafa;
+  transition: all 200ms ease-in-out;
+  font-weight: 600;
+}
+
+.back-link:hover {
+  background-color: #333;
+  color: #fff;
+  border-color: #333;
+}
+
+/* Footer */
 footer {
   text-align: center;
   font-size: 0.9rem;
   color: rgba(0, 0, 0, 0.6);
+  margin-top: 2rem;
+  padding-bottom: 2rem;
+}
+
+footer a {
+  color: #333;
+  font-weight: bold;
+}
+
+/* Ajustes para móviles */
+@media (max-width: 500px) {
+  .container {
+    margin: 1rem;
+    padding: 1rem;
+  }
+  
+  .time {
+    font-size: 2rem;
+  }
+  
+  h1 {
+    font-size: 2rem;
+  }
 }
